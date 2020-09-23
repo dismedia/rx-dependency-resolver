@@ -16,7 +16,7 @@ Lets assume that we have following factories
 
 ` type ConnectionFactory=(c:Config)=>Observable<Connection>`
 
-+ service which needs db connection  to 
++ service which needs db connection  to operate
 
 ` type Service=(c:Connection)=>Observable<Service>`
 
