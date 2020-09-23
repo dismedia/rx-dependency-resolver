@@ -10,15 +10,23 @@ reactive dependency resolver
 Lets assume that we have following factories 
 + config : which is fetched via http 
 
-` type ConfigFactory=()=>Observable<Config>`
+```javascript
+type ConfigFactory=()=>Observable<Config>
+```
+
 
 + db which creates Connection and needs config to connect
 
-` type ConnectionFactory=(c:Config)=>Observable<Connection>`
+
+```javascript
+type ConnectionFactory=(c:Config)=>Observable<Connection>
+```
 
 + service which needs db connection  to operate
 
-` type Service=(c:Connection)=>Observable<Service>`
+```javascript 
+type Service=(c:Connection)=>Observable<Service>
+```
 
 
 now rx-dependency-resolver gives an ability to 'connect' observable factories in declarative way. This is how the idea works:
