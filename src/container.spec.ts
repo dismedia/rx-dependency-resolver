@@ -94,7 +94,7 @@ describe("container", () => {
     })
 
 
-    xit("should detect circular reference", (done) => {
+    it("should detect circular reference", (done) => {
 
         const container = containerFactory()
 
@@ -112,18 +112,13 @@ describe("container", () => {
         container.register(itemSymbol2, creator2, [itemSymbol0], "lazySingleton")
 
 
+
+
         zip(container.get(itemSymbol0), container.get(itemSymbol1), container.get(itemSymbol2)).pipe(
-            catchError((e) => {
 
+        ).subscribe(([r0, r1, r2]) => {})
 
-                expect(e).toBeDefined();
-                done()
-                return EMPTY
-            })
-        )
-
-            .subscribe(([r0, r1, r2]) => {
-            },)
+        expect(container.get).toThrowError()
 
 
     })

@@ -9,6 +9,7 @@ yarn-error.log
 *.iml
 out
 gen
+dist
 ### Node template
 # Logs
 logs

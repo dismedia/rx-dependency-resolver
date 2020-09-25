@@ -1,13 +1,12 @@
-import {Observable, of, zip} from "rxjs";
-import {delay, shareReplay, switchMap, tap} from "rxjs/operators";
-import {checkForCircularDependency} from "./circularDependency/circularDependeny";
+import {Observable, zip} from "rxjs";
+import {shareReplay, switchMap, tap} from "rxjs/operators";
 import {diLog, DiLog} from "./log/diLog";
 
 
 type provider<T> = Observable<T>
 
 
-export type Entry = { creator: Creator<any>, dependencyArray: DependencyArray, instance: any, strategyType: ResolveStrategyType }
+export type Entry = { creator: Creator<any>, dependencyArray: DependencyArray, observableInstance: Observable<any>, strategyType: ResolveStrategyType }
 
 export type DependencyId = Symbol;
 export type DependencyArray = DependencyId[];
@@ -50,7 +49,7 @@ export const containerFactory: (log?:DiLog) => Container = (log=diLog) => {
         map.set(dependencyId, {
             creator,
             dependencyArray,
-            instance: null,
+            observableInstance: null,
             strategyType
         })
     }
@@ -60,17 +59,18 @@ export const containerFactory: (log?:DiLog) => Container = (log=diLog) => {
 
         const entry = map.get(dependencyId);
 
-        checkForCircularDependency(entry, aggregatedDependencies)
 
         aggregatedDependencies = [...aggregatedDependencies, ...entry.dependencyArray]
 
 
         const dependencies: any[] = entry.dependencyArray.map(dependencyId => get(dependencyId, aggregatedDependencies))
-        entry.instance = entry.instance ? entry.instance : resolveStrategies[entry.strategyType](dependencies, entry.creator)
+        entry.observableInstance = entry.observableInstance ? entry.observableInstance : resolveStrategies[entry.strategyType](dependencies, entry.creator)
 
 
-        return entry.instance.pipe(
+        return entry.observableInstance.pipe(
             tap((e) => log.resolved(entry, dependencyId, entry.dependencyArray))
+
+
         );
 
     }
@@ -83,7 +83,6 @@ export const containerFactory: (log?:DiLog) => Container = (log=diLog) => {
 
 
 }
-
 
 
 

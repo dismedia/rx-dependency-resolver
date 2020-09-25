@@ -3,12 +3,13 @@
     "module": "commonjs",
     "target": "es5",
     "sourceMap": true,
-    "outDir": "build",
+    "outDir": "dist",
     "experimentalDecorators": true,
-    "emitDecoratorMetadata": true
+    "emitDecoratorMetadata": true,
+    "declaration": true
   },
-
   "exclude": [
-    "node_modules"
+    "node_modules",
+    "dist"
   ]
 }

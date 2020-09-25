@@ -5,12 +5,13 @@
   "main": "src/index.ts",
   "scripts": {
     "test": "jest",
-    "start": "tsc && node .build/index.js",
+    "start": "ts-node src/index.ts",
     "build": "tsc"
-
   },
+  "prepublish": "tsc",
+  "types": "index.d.ts",
   "keywords": [],
-  "author": "",
+  "author": "dismedia",
   "license": "MIT",
   "devDependencies": {
     "@types/jest": "^26.0.13",
